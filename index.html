@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Freeze Detector</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Adobe Clean", Arial, sans-serif;
+      font-size: 12px;
+      background: #1e1e1e;
+      color: #d4d4d4;
+      padding: 12px;
+      user-select: none;
+    }
+
+    h2 {
+      font-size: 13px;
+      font-weight: 600;
+      color: #e8e8e8;
+      margin-bottom: 14px;
+      letter-spacing: 0.3px;
+    }
+
+    .section {
+      margin-bottom: 14px;
+    }
+
+    label {
+      display: block;
+      color: #aaa;
+      margin-bottom: 4px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      background: #2d2d2d;
+      border: 1px solid #444;
+      border-radius: 3px;
+      color: #e0e0e0;
+      padding: 5px 7px;
+      font-size: 12px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    input[type="text"]:focus {
+      border-color: #6ea6d7;
+    }
+
+    .row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .row input { flex: 1; }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #333;
+      margin: 14px 0;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 8px;
+      border: none;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      transition: background 0.15s, opacity 0.15s;
+    }
+
+    .btn-primary {
+      background: #3d7ab5;
+      color: #fff;
+    }
+
+    .btn-primary:hover:not(:disabled) { background: #4a8fd1; }
+    .btn-primary:disabled { opacity: 0.4; cursor: default; }
+
+    .btn-secondary {
+      background: #3a3a3a;
+      color: #ccc;
+      margin-top: 6px;
+    }
+
+    .btn-secondary:hover { background: #444; }
+
+    /* Status bar */
+    #statusBox {
+      margin-top: 14px;
+      background: #161616;
+      border: 1px solid #333;
+      border-radius: 3px;
+      padding: 8px;
+      min-height: 60px;
+      max-height: 140px;
+      overflow-y: auto;
+      font-size: 11px;
+      line-height: 1.6;
+      color: #bbb;
+    }
+
+    .log-info  { color: #bbb; }
+    .log-ok    { color: #6dbf67; }
+    .log-warn  { color: #e8a030; }
+    .log-error { color: #e06060; }
+
+    /* Spinner */
+    .spinner {
+      display: inline-block;
+      width: 10px; height: 10px;
+      border: 2px solid #555;
+      border-top-color: #6ea6d7;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Progress line */
+    .log-progress {
+      color: #8ec4f0;
+      line-height: 1.8;
+    }
+
+    .prog-bar {
+      font-family: monospace;
+      font-size: 10px;
+      letter-spacing: -1px;
+      color: #4a8fd1;
+    }
+
+    .prog-pct {
+      font-weight: 700;
+      color: #8ec4f0;
+      margin-left: 4px;
+    }
+
+    .prog-meta {
+      color: #777;
+      font-size: 10px;
+      display: block;
+      margin-top: 1px;
+      padding-left: 2px;
+    }
+
+    .hidden { display: none; }
+
+    /* Offset toggle */
+    .toggle-row {
+      display: flex;
+      gap: 6px;
+    }
+
+    .toggle-btn {
+      flex: 1;
+      padding: 5px;
+      background: #2d2d2d;
+      border: 1px solid #444;
+      border-radius: 3px;
+      color: #aaa;
+      cursor: pointer;
+      font-size: 12px;
+      text-align: center;
+      transition: all 0.15s;
+    }
+
+    .toggle-btn.active {
+      background: #2a4a6e;
+      border-color: #3d7ab5;
+      color: #8ec4f0;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>⚡ Freeze Detector</h2>
+
+  <!-- Temp dir -->
+  <div class="section">
+    <label>Temp / Output Folder</label>
+    <input type="text" id="tempDir" value="C:/Program Files (x86)/Common Files/Adobe/CEP/extensions/FreezeDetector"/>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- Offset selector -->
+  <div class="section">
+    <label>Track-split offset</label>
+    <div class="toggle-row">
+      <div class="toggle-btn active" id="offset0" onclick="selectOffset(0)">0 — Even clips</div>
+      <div class="toggle-btn"        id="offset1" onclick="selectOffset(1)">1 — Odd clips</div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- Run button -->
+  <button class="btn btn-primary" id="runBtn" onclick="runPipeline()">
+    ▶ &nbsp;Run Freeze Detection
+  </button>
+  <button class="btn btn-secondary" id="cancelBtn" onclick="cancelRun()" style="display:none">
+    ✕ &nbsp;Cancel
+  </button>
+
+  <!-- Status log -->
+  <div id="statusBox"><span class="log-info">Ready.</span></div>
+
+<script src="CSInterface.js"></script>
+<script src="js/panel.js"></script>
+</body>
+</html>
