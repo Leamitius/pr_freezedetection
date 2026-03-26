@@ -51,15 +51,15 @@ Adobe Premiere Pro blocks unsigned extensions by default. You need to add a regi
 Open PowerShell as Administrator and run:
 
 ```powershell
-reg add "HKCU\Software\Adobe\CSXS.11" /v PlayerDebugMode /t REG_SZ /d 1 /f
+reg add "HKCU\Software\Adobe\CSXS.12" /v PlayerDebugMode /t REG_SZ /d 1 /f
 ```
 
-> If you are on an older version of Premiere Pro, try `CSXS.10` or `CSXS.9` instead of `CSXS.11`.
+> If you are on an older version of Premiere Pro, try `CSXS.11` or `CSXS.10` instead of `CSXS.12`.
 
 **Option B — Manual via regedit**
 
 1. Press `Win + R`, type `regedit`, press Enter
-2. Navigate to: `HKEY_CURRENT_USER\Software\Adobe\CSXS.11`
+2. Navigate to: `HKEY_CURRENT_USER\Software\Adobe\CSXS.12`
 3. Right-click the folder → New → String Value
 4. Name it `PlayerDebugMode`, set the value to `1`
 
