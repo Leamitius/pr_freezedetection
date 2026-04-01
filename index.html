@@ -185,22 +185,29 @@
 
   <h2>⚡ Freeze Detector</h2>
 
-  <!-- Temp dir -->
+  <!-- Zoom settings -->
   <div class="section">
-    <label>Temp / Output Folder</label>
-    <input type="text" id="tempDir" value="C:/Program Files (x86)/Common Files/Adobe/CEP/extensions/FreezeDetector"/>
-  </div>
-
-  <hr class="divider"/>
-
-  <!-- Offset selector -->
-  <div class="section">
-    <label>Track-split offset</label>
+    <label>Camera Preset</label>
     <div class="toggle-row">
-      <div class="toggle-btn active" id="offset0" onclick="selectOffset(0)">0 — Even clips</div>
-      <div class="toggle-btn"        id="offset1" onclick="selectOffset(1)">1 — Odd clips</div>
+      <div class="toggle-btn active" id="presetPos1"   onclick="selectPreset(1)">Pos 1</div>
+      <div class="toggle-btn"        id="presetPos2"   onclick="selectPreset(2)">Pos 2</div>
+      <div class="toggle-btn"        id="presetCustom" onclick="selectPreset(0)">Custom</div>
     </div>
   </div>
+  <div class="section">
+    <label>Position (x / y)</label>
+    <div class="row">
+      <input type="text" id="posX" value="0"   placeholder="x" oninput="onZoomInput()"/>
+      <input type="text" id="posY" value="0"   placeholder="y" oninput="onZoomInput()"/>
+    </div>
+  </div>
+  <div class="section">
+    <label>Scale</label>
+    <input type="text" id="zoomScale" value="280" placeholder="scale" oninput="onZoomInput()"/>
+  </div>
+  <button class="btn btn-secondary" onclick="applyZoomPanel()">
+    &#9654; &nbsp;Apply to Track 1
+  </button>
 
   <hr class="divider"/>
 
@@ -210,6 +217,9 @@
   </button>
   <button class="btn btn-secondary" id="cancelBtn" onclick="cancelRun()" style="display:none">
     ✕ &nbsp;Cancel
+  </button>
+  <button class="btn btn-secondary" id="switchBtn" onclick="switchZoomsPanel()">
+    ⇄ &nbsp;Switch Zooms
   </button>
 
   <!-- Status log -->
